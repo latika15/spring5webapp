@@ -16,10 +16,9 @@ public class Publisher {
     private String state;
     private int zip;
 
-    @ManyToMany
+    @OneToMany
+    @JoinColumn(name = "publisher_id")
     private Set<Book> books = new HashSet<>();
-    @ManyToMany
-    private Set<Author> authors = new HashSet<>();
 
     public Publisher() {
     }
@@ -88,14 +87,6 @@ public class Publisher {
         this.books = books;
     }
 
-    public Set<Author> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(Set<Author> authors) {
-        this.authors = authors;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -103,24 +94,12 @@ public class Publisher {
 
         Publisher publisher = (Publisher) o;
 
-        if (zip != publisher.zip) return false;
-        if (id != null ? !id.equals(publisher.id) : publisher.id != null) return false;
-        if (name != null ? !name.equals(publisher.name) : publisher.name != null) return false;
-        if (addressLine1 != null ? !addressLine1.equals(publisher.addressLine1) : publisher.addressLine1 != null)
-            return false;
-        if (city != null ? !city.equals(publisher.city) : publisher.city != null) return false;
-        return state != null ? state.equals(publisher.state) : publisher.state == null;
+        return id != null ? id.equals(publisher.id) : publisher.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (addressLine1 != null ? addressLine1.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (state != null ? state.hashCode() : 0);
-        result = 31 * result + zip;
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override
